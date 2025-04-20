@@ -15,16 +15,26 @@
 
       textarea {
         width: 100%;
-        height: 90vh;
+        height: 80vh;
         resize: none;
         font-size: 14px;
         padding: 10px;
         box-sizing: border-box;
       }
+
+      .toggle-container {
+        margin-bottom: 10px;
+      }
     </style>
   </head>
   <body>
     <h2>Notepad</h2>
+    <div class="toggle-container">
+      <label>
+        <input type="checkbox" id="autoAddToggle" />
+        Auto-add selected text
+      </label>
+    </div>
     <textarea id="notes" placeholder="Write something..."></textarea>
     <script src="sidepanel.js"></script>
   </body>

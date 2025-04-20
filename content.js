@@ -4,10 +4,10 @@ document.addEventListener("mouseup", () => {
   try {
     const selectedText = window.getSelection().toString().trim();
     if (selectedText.length > 0) {
-      console.log("Selected text:", selectedText);
+      chrome.storage.local.get(["autoAddEnabled", "notepad"], (data) => {
+        if (!data.autoAddEnabled) return;
 
-      chrome.storage.local.get("notepad", (data) => {
-        const current = data?.notepad || "";
+        const current = data.notepad || "";
         const updated = current + "\n\n" + selectedText;
 
         chrome.storage.local.set({ notepad: updated }, () => {
