@@ -1,9 +1,5 @@
+// Open side panel on icon click — must be triggered by user
 chrome.action.onClicked.addListener((tab) => {
-    chrome.sidePanel.setOptions({
-      tabId: tab.id,
-      path: "sidepanel.html",
-      enabled: true
-    });
     chrome.sidePanel.open({ tabId: tab.id });
   });
   
