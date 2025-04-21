@@ -1,21 +1,19 @@
 console.log("🔥 content script running");
 
 document.addEventListener("mouseup", () => {
-  try {
-    const selectedText = window.getSelection().toString().trim();
-    if (selectedText.length > 0) {
-      chrome.storage.local.get(["autoAddEnabled", "notepad"], (data) => {
-        if (!data.autoAddEnabled) return;
+  const selectedText = window.getSelection().toString().trim();
+  if (selectedText.length === 0) return;
 
-        const current = data.notepad || "";
-        const updated = current + "\n\n" + selectedText;
+  chrome.storage.local.get(["autoAddEnabled", "notes"], (data) => {
+    if (!data.autoAddEnabled) return;
 
-        chrome.storage.local.set({ notepad: updated }, () => {
-          console.log("✅ Saved to notepad.");
-        });
-      });
-    }
-  } catch (err) {
-    console.error("❌ Error in content.js:", err);
-  }
+    const notes = data.notes || [];
+    if (notes.length === 0) return;
+
+    const recent = [...notes].sort((a, b) => b.timestamp - a.timestamp)[0];
+    recent.content += "\n\n" + selectedText;
+    recent.timestamp = Date.now();
+
+    chrome.storage.local.set({ notes });
+  });
 });
